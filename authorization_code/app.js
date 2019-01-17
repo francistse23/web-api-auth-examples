@@ -12,11 +12,11 @@ var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
-require('dotenv').load();
+require('dotenv').config();
 
-var client_id = process.env.CLIENT_ID
-var client_secret = process.env_CLIENT_SECRET;
-var redirect_uri = process.env.REDIRECT_URI;
+var client_id = "b56e28cbf84e4c38aec748a3f8891a29";
+var client_secret = "517016abe18342c193482decf3c669e1";
+var redirect_uri = "http://localhost:8888/callback";
 
 /**
  * Generates a random string containing numbers and letters
@@ -36,6 +36,7 @@ var generateRandomString = function(length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
+app.use(express.json());
 
 app.use(express.static(__dirname + '/public'))
    .use(cors())
@@ -105,11 +106,15 @@ app.get('/callback', function(req, res) {
         });
 
         // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
+        // res.redirect('/#' +
+        //   querystring.stringify({
+        //     access_token: access_token,
+        //     refresh_token: refresh_token
+        //   }));
+        res.status(200).json({
+          access_token: access_token,
+          refresh_token: refresh_token
+        })
       } else {
         res.redirect('/#' +
           querystring.stringify({

@@ -13,9 +13,8 @@ var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
 require('dotenv').load();
-express.
 
-var client_id = process.env.CLIENT_ID
+var client_id = process.env.CLIENT_ID;
 var client_secret = process.env.CLIENT_SECRET;
 var redirect_uri = process.env.REDIRECT_URI;
 
@@ -37,7 +36,6 @@ var generateRandomString = function(length) {
 var stateKey = 'spotify_auth_state';
 
 var app = express();
-// app.use(express.json());
 
 app.use(express.static(__dirname + '/public'))
    .use(cors())
@@ -95,7 +93,6 @@ app.get('/callback', function(req, res) {
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { 'Authorization': 'Bearer ' + access_token },
@@ -113,14 +110,6 @@ app.get('/callback', function(req, res) {
             access_token: access_token,
             refresh_token: refresh_token
           }));
-
-        
-        // res.status(200).json({
-        //     access_token: access_token,
-        //     refresh_token: refresh_token
-        // })
-        
-
       } else {
         res.redirect('/#' +
           querystring.stringify({
@@ -156,4 +145,4 @@ app.get('/refresh_token', function(req, res) {
 });
 
 console.log('Listening on 8888');
-app.listen((process.env.PORT || 8888));
+app.listen(8888);
